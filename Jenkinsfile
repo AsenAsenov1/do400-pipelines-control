@@ -1,3 +1,4 @@
+
 pipeline {
     agent {
         node {
@@ -16,7 +17,7 @@ pipeline {
                     }
                 }
                 stage('Frontend Tests') {
-		    when { expression { params.RUN_FRONTEND_TESTS } }
+                    when { expression { params.RUN_FRONTEND_TESTS } }
                     steps {
                         sh 'node ./frontend/test.js'
                     }
@@ -30,5 +31,6 @@ pipeline {
             steps {
                 echo 'Deploying...'
             }
+        }
     }
 }
