@@ -1,4 +1,3 @@
-
 pipeline {
     agent {
         node {
@@ -17,7 +16,9 @@ pipeline {
                     }
                 }
                 stage('Frontend Tests') {
-                    when { expression { params.RUN_FRONTEND_TESTS } }
+                    when {
+                        expression { params.RUN_FRONTEND_TESTS }
+                    }
                     steps {
                         sh 'node ./frontend/test.js'
                     }
@@ -26,7 +27,12 @@ pipeline {
         }
         stage('Deploy') {
             when {
+                beforeInput true
                 expression { env.GIT_BRANCH == 'origin/main' }
+            }
+            input {
+                message 'Deploy the application?'
+                ok 'Deploy'
             }
             steps {
                 echo 'Deploying...'
@@ -34,3 +40,4 @@ pipeline {
         }
     }
 }
+
